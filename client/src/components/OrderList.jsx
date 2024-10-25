@@ -244,7 +244,9 @@ const OrderList = () => {
               className="flex gap-4 items-center border-b border-gray-200 pb-4"
             >
               <img
-                src={`https://hibuy.onrender.com/${product.productImage}`}
+                src={`https://hibuy.onrender.com/${product?.productImage.substring(
+                product?.productImage.indexOf("/api/") + 1
+              )}`}
                 alt={product.productName}
                 className="h-24 w-24 object-contain rounded-lg shadow-md"
               />

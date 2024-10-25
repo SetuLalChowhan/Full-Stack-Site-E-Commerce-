@@ -90,7 +90,7 @@ const DashProfile = () => {
           <img
             src={
               selectedImage ||
-              `https://hibuy.onrender.com/${currentUser.avatar.substring(
+              `https://hibuy.onrender.com/${currentUser?.avatar.substring(
                 currentUser?.avatar.indexOf("/api/") + 1
               )}` ||
               "/default-avatar.png"

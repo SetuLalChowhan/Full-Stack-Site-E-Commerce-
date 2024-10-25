@@ -16,7 +16,9 @@ const ProductCard = ({ product }) => {
       >
         <img
           className="w-full object-contain transition-transform duration-500 ease-in-out hover:scale-110"
-          src={`https://hibuy.onrender.com/${product.image}`}
+          src={`https://hibuy.onrender.com/${product?.image.substring(
+                product?.image.indexOf("/api/") + 1
+              )}`}
           alt={product.name}
         />
       </motion.div>
