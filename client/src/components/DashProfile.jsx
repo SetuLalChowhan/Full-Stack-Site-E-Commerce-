@@ -4,19 +4,30 @@ import { passwordChangeSchema, editSchema } from "../schema";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Modal, Spinner } from "flowbite-react";
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaCheckCircle } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaCheckCircle,
+} from "react-icons/fa";
 import { editProfile, passwordChange } from "../redux/user/userSlice";
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast";
 
 const DashProfile = () => {
   const dispatch = useDispatch();
-  const { currentUser, loading,loading2, error } = useSelector((state) => state.user.user);
+  const { currentUser, loading, loading2, error } = useSelector(
+    (state) => state.user.user
+  );
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  console.log(currentUser?.avatar);
 
   const initialValues = {
     name: currentUser?.name || "",
@@ -35,7 +46,11 @@ const DashProfile = () => {
     validationSchema: editSchema,
     onSubmit: (values) => {
       // Check if the form values have changed
-      if (values.name !== initialValues.name || values.email !== initialValues.email || values.avatar) {
+      if (
+        values.name !== initialValues.name ||
+        values.email !== initialValues.email ||
+        values.avatar
+      ) {
         dispatch(editProfile({ values, toast }));
       } else {
         toast.error("No changes detected.");
@@ -65,7 +80,9 @@ const DashProfile = () => {
 
   return (
     <div className="max-w-2xl mx-auto mt-16 p-8 bg-white shadow-lg rounded-lg border border-gray-300 h-screen">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">My Profile</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        My Profile
+      </h1>
 
       {/* Profile Image with upload option */}
       <div className="flex justify-center mb-6">
@@ -73,7 +90,9 @@ const DashProfile = () => {
           <img
             src={
               selectedImage ||
-              `https://hibuy.onrender.com/opt/render/project/src/${currentUser.avatar}` ||
+              `https://hibuy.onrender.com/${currentUser.avatar.substring(
+                currentUser?.avatar.indexOf("/api/") + 1
+              )}` ||
               "/default-avatar.png"
             }
             alt="Profile"
@@ -105,7 +124,10 @@ const DashProfile = () => {
         <h2 className="text-xl font-semibold text-gray-800">
           {formik.values.name}
           {currentUser.isVerified && (
-            <FaCheckCircle className="inline-block text-green-500 ml-2" size={20} />
+            <FaCheckCircle
+              className="inline-block text-green-500 ml-2"
+              size={20}
+            />
           )}
         </h2>
         <p className="text-gray-600">{formik.values.email}</p>
@@ -115,7 +137,9 @@ const DashProfile = () => {
       <form onSubmit={formik.handleSubmit} className="space-y-6">
         {/* Name Input */}
         <div className="space-y-2">
-          <label htmlFor="name" className="block text-lg font-semibold">Name</label>
+          <label htmlFor="name" className="block text-lg font-semibold">
+            Name
+          </label>
           <div className="relative">
             <FaUser className="absolute left-3 top-3 text-blue-500" size={20} />
             <input
@@ -140,9 +164,14 @@ const DashProfile = () => {
 
         {/* Email Input */}
         <div className="space-y-2">
-          <label htmlFor="email" className="block text-lg font-semibold">Email</label>
+          <label htmlFor="email" className="block text-lg font-semibold">
+            Email
+          </label>
           <div className="relative">
-            <FaEnvelope className="absolute left-3 top-3 text-blue-500" size={20} />
+            <FaEnvelope
+              className="absolute left-3 top-3 text-blue-500"
+              size={20}
+            />
             <input
               type="email"
               id="email"
@@ -195,15 +224,24 @@ const DashProfile = () => {
           <form onSubmit={passwordFormik.handleSubmit} className="space-y-6">
             {/* Old Password */}
             <div className="space-y-2">
-              <label htmlFor="oldPassword" className="block text-lg font-semibold">Old Password</label>
+              <label
+                htmlFor="oldPassword"
+                className="block text-lg font-semibold"
+              >
+                Old Password
+              </label>
               <div className="relative">
-                <FaLock className="absolute left-3 top-3 text-blue-500" size={20} />
+                <FaLock
+                  className="absolute left-3 top-3 text-blue-500"
+                  size={20}
+                />
                 <input
                   type={showOldPassword ? "text" : "password"}
                   id="oldPassword"
                   name="oldPassword"
                   className={`w-full pl-10 pr-10 py-2 rounded-lg border ${
-                    passwordFormik.errors.oldPassword && passwordFormik.touched.oldPassword
+                    passwordFormik.errors.oldPassword &&
+                    passwordFormik.touched.oldPassword
                       ? "border-red-500"
                       : "border-gray-800"
                   } focus:ring focus:ring-blue-200 transition`}
@@ -217,25 +255,41 @@ const DashProfile = () => {
                   className="absolute right-3 top-3"
                   onClick={() => setShowOldPassword(!showOldPassword)}
                 >
-                  {showOldPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                  {showOldPassword ? (
+                    <FaEyeSlash size={20} />
+                  ) : (
+                    <FaEye size={20} />
+                  )}
                 </button>
-                {passwordFormik.errors.oldPassword && passwordFormik.touched.oldPassword && (
-                  <p className="text-red-500 text-sm">{passwordFormik.errors.oldPassword}</p>
-                )}
+                {passwordFormik.errors.oldPassword &&
+                  passwordFormik.touched.oldPassword && (
+                    <p className="text-red-500 text-sm">
+                      {passwordFormik.errors.oldPassword}
+                    </p>
+                  )}
               </div>
             </div>
 
             {/* New Password */}
             <div className="space-y-2">
-              <label htmlFor="newPassword" className="block text-lg font-semibold">New Password</label>
+              <label
+                htmlFor="newPassword"
+                className="block text-lg font-semibold"
+              >
+                New Password
+              </label>
               <div className="relative">
-                <FaLock className="absolute left-3 top-3 text-blue-500" size={20} />
+                <FaLock
+                  className="absolute left-3 top-3 text-blue-500"
+                  size={20}
+                />
                 <input
                   type={showNewPassword ? "text" : "password"}
                   id="newPassword"
                   name="newPassword"
                   className={`w-full pl-10 pr-10 py-2 rounded-lg border ${
-                    passwordFormik.errors.newPassword && passwordFormik.touched.newPassword
+                    passwordFormik.errors.newPassword &&
+                    passwordFormik.touched.newPassword
                       ? "border-red-500"
                       : "border-gray-800"
                   } focus:ring focus:ring-blue-200 transition`}
@@ -249,25 +303,41 @@ const DashProfile = () => {
                   className="absolute right-3 top-3"
                   onClick={() => setShowNewPassword(!showNewPassword)}
                 >
-                  {showNewPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                  {showNewPassword ? (
+                    <FaEyeSlash size={20} />
+                  ) : (
+                    <FaEye size={20} />
+                  )}
                 </button>
-                {passwordFormik.errors.newPassword && passwordFormik.touched.newPassword && (
-                  <p className="text-red-500 text-sm">{passwordFormik.errors.newPassword}</p>
-                )}
+                {passwordFormik.errors.newPassword &&
+                  passwordFormik.touched.newPassword && (
+                    <p className="text-red-500 text-sm">
+                      {passwordFormik.errors.newPassword}
+                    </p>
+                  )}
               </div>
             </div>
 
             {/* Confirm New Password */}
             <div className="space-y-2">
-              <label htmlFor="confirmPassword" className="block text-lg font-semibold">Confirm New Password</label>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-lg font-semibold"
+              >
+                Confirm New Password
+              </label>
               <div className="relative">
-                <FaLock className="absolute left-3 top-3 text-blue-500" size={20} />
+                <FaLock
+                  className="absolute left-3 top-3 text-blue-500"
+                  size={20}
+                />
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   name="confirmPassword"
                   className={`w-full pl-10 pr-10 py-2 rounded-lg border ${
-                    passwordFormik.errors.confirmPassword && passwordFormik.touched.confirmPassword
+                    passwordFormik.errors.confirmPassword &&
+                    passwordFormik.touched.confirmPassword
                       ? "border-red-500"
                       : "border-gray-800"
                   } focus:ring focus:ring-blue-200 transition`}
@@ -281,11 +351,18 @@ const DashProfile = () => {
                   className="absolute right-3 top-3"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
-                  {showConfirmPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                  {showConfirmPassword ? (
+                    <FaEyeSlash size={20} />
+                  ) : (
+                    <FaEye size={20} />
+                  )}
                 </button>
-                {passwordFormik.errors.confirmPassword && passwordFormik.touched.confirmPassword && (
-                  <p className="text-red-500 text-sm">{passwordFormik.errors.confirmPassword}</p>
-                )}
+                {passwordFormik.errors.confirmPassword &&
+                  passwordFormik.touched.confirmPassword && (
+                    <p className="text-red-500 text-sm">
+                      {passwordFormik.errors.confirmPassword}
+                    </p>
+                  )}
               </div>
             </div>
 
