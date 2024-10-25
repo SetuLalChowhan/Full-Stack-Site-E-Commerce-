@@ -114,7 +114,7 @@ const SingleProduct = () => {
           transition={{ duration: 0.8 }}
         >
           <img
-            src={`http://localhost:3000/${singleProduct?.image}`}
+            src={`https://hibuy.onrender.com/${singleProduct?.image}`}
             alt={singleProduct?.name}
             className="max-h-[500px] w-full object-contain lg:max-h-[700px] rounded-md"
           />

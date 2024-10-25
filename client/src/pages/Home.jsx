@@ -79,7 +79,7 @@ export default function Home() {
       setLatestError("");
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/products/all-products?latest=true&startIndex=0&limit=10`
+          `https://hibuy.onrender.com/api/products/all-products?latest=true&startIndex=0&limit=10`
         );
         setLatestProducts(response.data.products);
       } catch (error) {
@@ -99,7 +99,7 @@ export default function Home() {
       setBestSellerError("");
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/products/all-products?bestSeller=true&startIndex=0&limit=10`
+          `https://hibuy.onrender.com/api/products/all-products?bestSeller=true&startIndex=0&limit=10`
         );
         setBestSellerProducts(response.data.products);
       } catch (error) {

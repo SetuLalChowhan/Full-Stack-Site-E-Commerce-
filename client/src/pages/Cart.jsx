@@ -66,7 +66,7 @@ const Cart = () => {
               {/* Product Image and Info */}
               <div className="flex items-center gap-4">
                 <motion.img
-                  src={`http://localhost:3000/${item.image}`}
+                  src={`https://hibuy.onrender.com/${item.image}`}
                   alt={item.name}
                   className="w-24 h-24 object-contain rounded-lg"
                   initial={{ opacity: 0, scale: 0.8 }}
