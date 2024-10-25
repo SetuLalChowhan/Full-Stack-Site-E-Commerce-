@@ -1,11 +1,10 @@
 const multer = require("multer");
 const path = require("path");
-const AppError = require("../error/AppError.js");
 
 // Configure storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "api/uploads/");
+    cb(null, path.join(__dirname, "../uploads")); // Store images in 'uploads' folder
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)); // unique file name
@@ -13,17 +12,15 @@ const storage = multer.diskStorage({
 });
 
 // Validate file type
-const fileFilter = (req, file, cb, next) => {
+const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png/;
-  const extname = allowedTypes.test(
-    path.extname(file.originalname).toLowerCase()
-  );
+  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedTypes.test(file.mimetype);
 
   if (extname && mimetype) {
-    return cb(null, true);
+    cb(null, true);
   } else {
-    return cb(new Error("Only .png, .jpg, and .jpeg format allowed!"));
+    cb(new Error("Only .png, .jpg, and .jpeg formats are allowed!"));
   }
 };
 
