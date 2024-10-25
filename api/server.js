@@ -8,7 +8,6 @@ const errorHandler = require("./middleware/errorHandler.js");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const orderRoutes = require("./routers/order.route.js");
-const path =require("path")
 
 dotenv.config();
 connectDB();
@@ -18,9 +17,9 @@ const app = express();
 // Middleware
 
 app.use(express.json());
-const __dirname = path.resolve();
-app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
+
 mul = path.join(__dirname, "uploads");
+
 app.use(cookieParser());
 app.use(
   cors({
@@ -37,7 +36,6 @@ app.use(express.static(path.join(__dirname, "/client/dist")));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
 });
-
 
 app.use(errorHandler);
 
