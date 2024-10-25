@@ -73,7 +73,7 @@ const DashProfile = () => {
           <img
             src={
               selectedImage ||
-              currentUser.avatar ||
+              `https://hibuy.onrender.com/${currentUser.avatar}` ||
               "/default-avatar.png"
             }
             alt="Profile"
