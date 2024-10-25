@@ -35,7 +35,7 @@ export const fetchOrders = createAsyncThunk(
       } = values;
 
       const response = await axios.get(
-        `http://localhost:3000/api/orders/allOrders`,
+        `https://hibuy.onrender.com/api/orders/allOrders`,
         {
           params: {
             query: query || "",
@@ -101,7 +101,7 @@ export const myOrderList = createAsyncThunk(
     const { startIndex = 0, limit } = values;
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/orders/my-orders`,
+        `https://hibuy.onrender.com/api/orders/my-orders`,
         {
           params: {
             startIndex: startIndex || 0,

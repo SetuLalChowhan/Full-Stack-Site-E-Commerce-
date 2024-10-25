@@ -40,7 +40,7 @@ export const fetchProducts = createAsyncThunk(
       console.log(values);
 
       const response = await axios.get(
-        `http://localhost:3000/api/products/all-products`,
+        `https://hibuy.onrender.com/api/products/all-products`,
         {
           params: {
             sortOrder: sortOption,
@@ -74,7 +74,7 @@ export const getSingleProduct = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/products/${id}`,
+        `https://hibuy.onrender.com/api/products/${id}`,
         {
           withCredentials: true,
         }
@@ -91,7 +91,7 @@ export const editProduct = createAsyncThunk(
   async ({ values, id, toast }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/products/${id}`,
+        `https://hibuy.onrender.com/api/products/${id}`,
         values,
         {
           headers: {
@@ -116,7 +116,7 @@ export const deleteProduct = createAsyncThunk(
   async ({ id, toast }, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/products/${id}`,
+        `https://hibuy.onrender.com/api/products/${id}`,
         {
           withCredentials: true,
         }
@@ -136,7 +136,7 @@ export const addReview = createAsyncThunk(
   async ({ id, toast, review }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/products/reviews/${id}`,
+        `https://hibuy.onrender.com/api/products/reviews/${id}`,
         review,
         {
           headers: {
@@ -160,7 +160,7 @@ export const editReview = createAsyncThunk(
   async ({ id, toast, review }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/products/reviews/${id}`,
+        `https://hibuy.onrender.com/api/products/reviews/${id}`,
         review,
         {
           headers: {
@@ -186,7 +186,7 @@ export const deleteReview = createAsyncThunk(
     console.log(value);
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/products/reviews/${id}/${id2}`,
+        `https://hibuy.onrender.com/api/products/reviews/${id}/${id2}`,
 
         {
           withCredentials: true,

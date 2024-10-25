@@ -69,7 +69,7 @@ export const logout = createAsyncThunk(
     console.log("Hi");
 
     try {
-      const response = await axios.post("http://localhost:3000/api/users/logout", {
+      const response = await axios.post("https://hibuy.onrender.com/api/users/logout", {
         withCredentials: true,
       });
       toast.success("You have been logged out.");
@@ -109,7 +109,7 @@ export const resetPassword = createAsyncThunk(
   async ({ values, toast, navigate, token }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `http://localhost:5173/api/users/reset-password/${token}`,
+        `https://hibuy.onrender.com/api/users/reset-password/${token}`,
         values,
         {
           headers: {
@@ -136,7 +136,7 @@ export const getAllUsers = createAsyncThunk(
     try {
       console.log("hllo");
       const response = await axios.get(
-        `http://localhost:3000/api/users/getAllusers?query=${query}&startIndex=${startIndex}&limit=10`,
+        `https://hibuy.onrender.com/api/users/getAllusers?query=${query}&startIndex=${startIndex}&limit=10`,
         {
           withCredentials: true,
         }
