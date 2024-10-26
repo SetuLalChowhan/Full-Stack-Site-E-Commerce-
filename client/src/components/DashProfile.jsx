@@ -90,15 +90,15 @@ const DashProfile = () => {
           <img
             src={
               selectedImage ||
-              `https://hibuy.onrender.com/${currentUser?.avatar.substring(
-                currentUser?.avatar.indexOf("/api/") + 1
-              )}` ||
-              "/default-avatar.png"
+              (currentUser?.avatar
+                ? `https://hibuy.onrender.com/${currentUser.avatar}`
+                : "/default-avatar.png")
             }
             alt="Profile"
             className="w-48 h-48 rounded-full object-contain border-4 border-blue-500 cursor-pointer"
             onClick={() => document.getElementById("avatarInput").click()}
           />
+
           {imageLoading && (
             <div className="absolute inset-0 bg-blue-500 opacity-50 rounded-full flex items-center justify-center">
               <Spinner size="md" color="white" />
