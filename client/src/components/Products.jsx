@@ -163,9 +163,7 @@ const Products = () => {
                 <tr key={product._id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <img
-                      src={`https://hibuy.onrender.com/${product?.image.substring(
-                product?.image.indexOf("/api/") + 1
-              )}`}
+                      src={product?.image}
                       alt={product.name}
                       className="h-16 w-16 object-contain rounded-md"
                     />

@@ -62,9 +62,7 @@ export default function Header() {
               <Avatar
                 className="w-12 h-12 rounded-full object-cover"
                 alt="User settings"
-                img={`https://hibuy.onrender.com/${currentUser?.avatar.substring(
-                currentUser?.avatar.indexOf("/api/") + 1
-              )}`}
+                img={currentUser?.avatar}
                 rounded
               />
             }

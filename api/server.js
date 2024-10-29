@@ -26,8 +26,6 @@ app.use(
 
 // Serve static files from the 'uploads' directory
 
-app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
-
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);

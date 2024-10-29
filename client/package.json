@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
     "e-commerce": "file:..",
+    "firebase": "^11.0.1",
     "flowbite-react": "^0.10.2",
     "formik": "^2.4.6",
     "framer-motion": "^11.11.9",

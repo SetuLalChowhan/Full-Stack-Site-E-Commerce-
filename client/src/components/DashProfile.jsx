@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { passwordChangeSchema, editSchema } from "../schema";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Button, Modal, Spinner } from "flowbite-react";
+import { Alert, Button, Modal, Spinner } from "flowbite-react";
 import {
   FaUser,
   FaEnvelope,
@@ -14,6 +14,13 @@ import {
 } from "react-icons/fa";
 import { editProfile, passwordChange } from "../redux/user/userSlice";
 import toast from "react-hot-toast";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../firebase.js";
 
 const DashProfile = () => {
   const dispatch = useDispatch();
@@ -26,8 +33,9 @@ const DashProfile = () => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  console.log(currentUser?.avatar);
+  const [imageFile, setImageFile] = useState(null);
+  const [imageFileUploadError, setImageFileUploadError] = useState(null);
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const initialValues = {
     name: currentUser?.name || "",
@@ -62,20 +70,65 @@ const DashProfile = () => {
     initialValues: passwordInitialValues,
     validationSchema: passwordChangeSchema,
     onSubmit: (values) => {
-      dispatch(passwordChange({ values, toast }));
+      if (!imageFileUploadError) {
+        dispatch(passwordChange({ values, toast }));
+      }
     },
   });
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      formik.setFieldValue("avatar", file);
-      setSelectedImage(URL.createObjectURL(file));
-      setImageLoading(true);
-      setTimeout(() => {
-        setImageLoading(false);
-      }, 1500);
+      if (
+        file.size < 2 * 1024 * 1024 &&
+        (file.type === "image/jpeg" || file.type === "image/png")
+      ) {
+        setImageFile(file);
+        setSelectedImage(URL.createObjectURL(file));
+        setImageLoading(true);
+        setTimeout(() => {
+          setImageLoading(false);
+        }, 1500);
+      } else {
+        setImageFileUploadError("File must be a JPEG or PNG and less than 2MB");
+      }
     }
+  };
+
+  useEffect(() => {
+    uploadImage();
+  }, [imageFile]);
+
+  const uploadImage = async () => {
+    if (!imageFile) return;
+
+    setImageFileUploadError(null);
+    setIsImageUploading(true); // Set uploading state to true
+
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + imageFile.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        // Optional: You can track progress here if needed
+      },
+      (error) => {
+        setImageFileUploadError(
+          "Could not upload image (File must be less than 2MB)"
+        );
+        setIsImageUploading(false); // Reset uploading state on error
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+          formik.setFieldValue("avatar", downloadUrl);
+          setIsImageUploading(false); // Reset uploading state after success
+        });
+      }
+    );
   };
 
   return (
@@ -88,13 +141,7 @@ const DashProfile = () => {
       <div className="flex justify-center mb-6">
         <div className="relative group">
           <img
-            src={
-              selectedImage ||
-              `https://hibuy.onrender.com/${currentUser?.avatar.substring(
-                currentUser?.avatar.indexOf("/api/") + 1
-              )}` ||
-              "/default-avatar.png"
-            }
+            src={selectedImage || currentUser.avatar || "/default-avatar.png"}
             alt="Profile"
             className="w-48 h-48 rounded-full object-contain border-4 border-blue-500 cursor-pointer"
             onClick={() => document.getElementById("avatarInput").click()}
@@ -111,10 +158,8 @@ const DashProfile = () => {
             className="hidden"
             onChange={handleImageChange}
           />
-          {formik.errors.avatar && formik.touched.avatar && (
-            <p className="text-red-500 flex justify-center items-center text-sm mt-1">
-              {formik.errors.avatar}
-            </p>
+          {imageFileUploadError && (
+            <Alert color={"failure"}>{imageFileUploadError}</Alert>
           )}
         </div>
       </div>
@@ -194,7 +239,10 @@ const DashProfile = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-teal-500 text-white py-3 rounded-lg text-lg font-semibold hover:bg-teal-600 transition duration-300"
+          disabled={loading || isImageUploading}
+          className={`w-full py-3 bg-teal-500 text-white rounded-lg font-semibold transition duration-300 hover:bg-teal-600 ${
+            loading || isImageUploading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           {loading ? (
             <Spinner color="success" aria-label="Profile update spinner" />

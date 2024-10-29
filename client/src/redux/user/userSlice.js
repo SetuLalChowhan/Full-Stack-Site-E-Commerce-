@@ -7,7 +7,7 @@ export const register = createAsyncThunk(
     try {
       const response = await axios.post("api/users/register", values, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
         withCredentials: true,
       });
@@ -69,9 +69,12 @@ export const logout = createAsyncThunk(
     console.log("Hi");
 
     try {
-      const response = await axios.post("https://hibuy.onrender.com/api/users/logout", {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "https://hibuy.onrender.com/api/users/logout",
+        {
+          withCredentials: true,
+        }
+      );
       toast.success("You have been logged out.");
       navigate("/login");
 
@@ -209,7 +212,7 @@ export const editProfile = createAsyncThunk(
 
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
 
           withCredentials: true,
@@ -259,11 +262,11 @@ const initialState = {
   loading: false,
   loading2: false,
   users: [],
-  cart:[],
+  cart: [],
   allUsersDefault: null,
   totalUsers: 0,
   showmore: true,
-  fixedTotalUser:0
+  fixedTotalUser: 0,
 };
 
 const userSlice = createSlice({
@@ -335,7 +338,7 @@ const userSlice = createSlice({
     },
     resetCart: (state) => {
       state.cart = []; // Reset the cart to an empty array
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(register.pending, (state) => {
@@ -420,7 +423,7 @@ const userSlice = createSlice({
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.loading = false; // Set loading to false on successful fetch
         state.allUsersDefault = action.payload.totalUsers;
-        state.fixedTotalUser =action.payload.total
+        state.fixedTotalUser = action.payload.total;
         const {
           arg: { startIndex },
         } = action.meta;
@@ -525,6 +528,14 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearError, addToCart, addQuantity, removeQuantity, deleteItem, addTotal, resetCart } = userSlice.actions;
+export const {
+  clearError,
+  addToCart,
+  addQuantity,
+  removeQuantity,
+  deleteItem,
+  addTotal,
+  resetCart,
+} = userSlice.actions;
 
 export default userSlice.reducer;
