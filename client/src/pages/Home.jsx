@@ -33,7 +33,7 @@ export default function Home() {
       setLatestLoading(true);
       setLatestError("");
       try {
-        const response = await axios.get(`http://localhost:3000/api/products/all-products?latest=true&startIndex=0&limit=10`);
+        const response = await axios.get(`https://hibuy.onrender.com/api/products/all-products?latest=true&startIndex=0&limit=10`);
         setLatestProducts(response.data.products);
       } catch (error) {
         console.error("Error fetching latest products:", error);
@@ -51,7 +51,7 @@ export default function Home() {
       setBestSellerLoading(true);
       setBestSellerError("");
       try {
-        const response = await axios.get(`http://localhost:3000/api/products/all-products?bestSeller=true&startIndex=0&limit=10`);
+        const response = await axios.get(`https://hibuy.onrender.com/api/products/all-products?bestSeller=true&startIndex=0&limit=10`);
         setBestSellerProducts(response.data.products);
       } catch (error) {
         console.error("Error fetching best sellers:", error);
