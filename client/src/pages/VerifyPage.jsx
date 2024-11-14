@@ -37,15 +37,7 @@ const VerifyPage = () => {
 
   return (
     <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-purple-500 min-h-screen relative overflow-hidden">
-      <svg
-        className="absolute top-0 left-0 h-full w-full"
-        viewBox="0 0 1440 320"
-      >
-        <path
-          fill="rgba(255, 255, 255, 0.1)"
-          d="M0,256L30,245.3C60,235,120,213,180,202.7C240,192,300,192,360,170.7C420,149,480,107,540,90.7C600,75,660,85,720,101.3C780,117,840,139,900,160C960,181,1020,203,1080,202.7C1140,203,1200,181,1260,170.7C1320,160,1380,160,1410,160L1440,160L1440,320L1410,320C1380,320,1320,320,1260,320C1200,320,1140,320,1080,320C1020,320,960,320,900,320C840,320,780,320,720,320C660,320,600,320,540,320C480,320,420,320,360,320C300,320,240,320,180,320C120,320,60,320,30,320L0,320Z"
-        ></path>
-      </svg>
+     
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md border border-gray-300">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">
